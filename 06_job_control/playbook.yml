@@ -1,0 +1,33 @@
+---
+- name: Task Failure Exercise
+  hosts: databases
+  vars:
+    web_package: http     # 잘못된 정보 그대로 입력
+    db_package: mariadb-server
+    db_service: mariadb
+  tasks:
+    - name: Check local time
+      command: databases
+      register: command_result
+      ignore_errors: yes
+
+    - name: print local time
+      debug: var=command_result.cmd
+
+    - name: 블럭 1
+      block:
+      - name: block 에러
+        yum:
+          name: "{{ web_package }}"
+          state: present
+        ignore_errors: yes
+      rescue:
+      - name: rescue 실행
+        yum:
+          name: "{{ db_package }}"
+          state: present
+      always:
+      - name: Start {{ db_service }} db_service
+        service:
+          name: "{{ db_service }}"
+          state: started

@@ -1,0 +1,16 @@
+min_ram_mb: 256
+packages: 
+  - httpd
+  - mod_ssl
+services:
+  - httpd
+conf_files: 
+  - src: files/localhost.crt
+    dest: /etc/pki/tls/certs/localhost.crt
+  - src: files/localhost.key
+    dest: /etc/pki/tls/private/localhost.key
+  - src: files/index.html
+    dest: /var/www/html/index.html
+fw_svc:
+  - http
+  - https

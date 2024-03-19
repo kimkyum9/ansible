@@ -1,0 +1,24 @@
+---
+- name: DB 패키지 삭제
+  # yum install mariadb-server
+  # systemctl enable --now mariadb
+  hosts: all
+  tasks:
+  - name: 서비스 종료
+    service:
+      name: mariadb
+      state: stopped
+      enabled: no
+  - name: 패키지 삭제
+    yum:
+      name: "{{ pkg_db }}"
+      state: absent
+    vars:
+      pkg_db:
+      - mariadb-server
+      - python3-PyMySQL
+    # when: ansible_distribution == 'Centos'
+    # when: ansible_distribution == 'RedHat'
+
+
+

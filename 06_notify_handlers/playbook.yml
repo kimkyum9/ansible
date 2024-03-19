@@ -1,0 +1,22 @@
+---
+- name: DB 패키지 설치
+  hosts: databases
+  gather_facts: no
+  vars_files:
+    - vars/db.yml
+  tasks:
+  - name: DB 패키지 설치
+    yum:
+      name: "{{ pkg_db }}"
+      state: present
+    notify:
+    - set db init
+
+  handlers:
+  - name: set db init
+    become: true
+  # mysql_secure_installation 스크립트 실행
+    community.mysql.mysql_user:
+      name: root
+      password: soldesk1.
+

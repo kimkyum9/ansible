@@ -1,0 +1,31 @@
+---
+# firewall configuration - disable service - http, https
+# service configuration - disable service - httpd
+# web server configuration - remove the file - /var/www/html/
+# package - remove the package - httpd, mod_ssl
+- name: Remove and Stop Web Service
+  hosts: all
+  tasks: 
+  - name: firewall configuration - disable service - http, https
+    firewalld:
+      service: http
+      permanent: yes
+      immediate: yes
+      state: disabled
+
+  - name: service configuration - disable service - httpd
+    service:
+      name: httpd
+      state: stopped
+      enabled: no
+
+  - name: Remove the file - /var/www/html/index.html
+    file:
+      path: /var/www/html/index.html
+      state: absent
+
+  - name: Remove the package - httpd
+    yum: 
+      name: 
+       - httpd
+      state: absent

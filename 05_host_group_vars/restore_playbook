@@ -1,0 +1,14 @@
+---
+- name: 패키지 삭제하기
+  hosts: all
+  tasks:
+    - name: 패키지 삭제 - {{ package }}
+      yum:
+        name: "{{ package }}"
+        state: absent
+      vars:
+        package:
+        - httpd
+        - mariabe-server
+        - php
+        - mutt

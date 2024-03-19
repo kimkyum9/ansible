@@ -1,0 +1,23 @@
+---
+- name: DB 패키지 설치
+  # yum install mariadb-server
+  # systemctl enable --now mariadb
+  hosts: database_prod
+  tasks:
+  - name: 패키지 설치
+    yum:
+      name: "{{ pkg_db }}"
+      state: latest
+    vars:
+      pkg_db:
+      - mariadb-server
+      - python3-PyMySQL
+    # when: ansible_distribution == 'Centos'
+    when: ansible_distribution == 'RedHat'
+
+
+  - name: 서비스 기동
+    service:
+      name: mariadb
+      state: started
+      enabled: yes
